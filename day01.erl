@@ -1,7 +1,7 @@
 -module(day01).
 
 main(_) ->
-    {ok, Data} = file:read_file("day01.txt"),
+    {ok, Data} = file:read_file("data/day01.txt"),
     StepBits = lists:droplast(string:split(Data, "\n", all)),
     Steps = lists:map(fun bitstring_to_list/1, StepBits),
     {_, FirstPasscode} = lists:foldl(fun turn1/2, {50, 0}, Steps),

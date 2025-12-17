@@ -1,7 +1,7 @@
 -module(day02).
 
 main(_) ->
-    {ok, Data} = file:read_file("day02.txt"),
+    {ok, Data} = file:read_file("data/day02.txt"),
     RangesString = lists:droplast(bitstring_to_list(Data)),
     RangeStrings = string:split(RangesString, ",", all),
     Ranges = lists:map(fun to_range/1, RangeStrings),
