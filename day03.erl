@@ -23,12 +23,12 @@ largest_joltage1(Rating) ->
     (Tens * 10) + Ones.
 
 largest_joltage2(Rating) ->
-    Digits = largest_joltage2(Rating, 12, []),
+    Digits = lists:reverse(largest_joltage2(Rating, 12, [])),
     List = lists:map(fun integer_to_list/1, Digits),
     list_to_integer(lists:flatten(lists:join("", List))).
 
 largest_joltage2(_, 0, Digits) ->
-    lists:reverse(Digits);
+    Digits;
 largest_joltage2(Rating, Num, Digits) ->
     {Sub, _} = lists:split(length_of(Rating) - Num + 1, Rating),
     Digit = lists:max(Sub),
