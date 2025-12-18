@@ -62,18 +62,14 @@ check(Pred, Pass, Fail) ->
     end.
 
 neighbors(Map, {X, Y}) ->
-    Offsets = [
-        {DX, DY}
-     || DX <- [-1, 0, 1],
+    Offsets = [{DX, DY} ||
+        DX <- [-1, 0, 1],
         DY <- [-1, 0, 1],
-        {DX, DY} =/= {0, 0}
-    ],
-    [
-        V
-     || {DX, DY} <- Offsets,
+        {DX, DY} =/= {0, 0}],
+    [V ||
+        {DX, DY} <- Offsets,
         V <- [at(Map, {X + DX, Y + DY})],
-        V =/= undefined
-    ].
+        V =/= undefined].
 
 update_cell(Map, "@", {X, Y}, InnerMap, InnerCount) ->
     AccCount = count_accessables(Map, {X, Y}),
