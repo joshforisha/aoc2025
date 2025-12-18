@@ -13,10 +13,8 @@ main(_) ->
 
 as_chars(String) -> [[C] || C <- String].
 
-at(_, {-1, _}) ->
-    undefined;
-at(_, {_, -1}) ->
-    undefined;
+at(_, {-1, _}) -> undefined;
+at(_, {_, -1}) -> undefined;
 at(Map, {X, Y}) ->
     MaxX = array:size(array:get(0, Map)) - 1,
     MaxY = array:size(Map) - 1,
@@ -31,13 +29,9 @@ count_accessables1(Map) ->
             array:foldl(
                 fun(Y, Element, InnerCount) ->
                     InnerCount + count_at_cell(Map, Element, {X, Y})
-                end,
-                AccOuter,
-                Row
+                end, AccOuter, Row
             )
-        end,
-        0,
-        Map
+        end, 0, Map
     ).
 
 count_accessables2(Map) -> count_accessables2(Map, 0).
@@ -46,9 +40,7 @@ count_accessables2(Map, Count) ->
     {NewMap, NewCount} = array:foldl(
         fun(X, Row, {OuterMap, OuterCount}) ->
             update_row(Map, X, Row, OuterMap, OuterCount)
-        end,
-        {Map, Count},
-        Map
+        end, {Map, Count}, Map
     ),
     case NewCount > Count of
         true -> count_accessables2(NewMap, NewCount);
@@ -72,11 +64,15 @@ check(Pred, Pass, Fail) ->
 neighbors(Map, {X, Y}) ->
     Offsets = [
         {DX, DY}
-     || DX <- [-1, 0, 1], DY <- [-1, 0, 1], {DX, DY} =/= {0, 0}
+     || DX <- [-1, 0, 1],
+        DY <- [-1, 0, 1],
+        {DX, DY} =/= {0, 0}
     ],
     [
         V
-     || {DX, DY} <- Offsets, V <- [at(Map, {X + DX, Y + DY})], V =/= undefined
+     || {DX, DY} <- Offsets,
+        V <- [at(Map, {X + DX, Y + DY})],
+        V =/= undefined
     ].
 
 update_cell(Map, "@", {X, Y}, InnerMap, InnerCount) ->
@@ -91,8 +87,6 @@ update_row(Map, X, Row, OuterMap, OuterCount) ->
     {NewInnerMap, NewInnerCount} = array:foldl(
         fun(Y, Element, {InnerMap, InnerCount}) ->
             update_cell(Map, Element, {X, Y}, InnerMap, InnerCount)
-        end,
-        {OuterMap, OuterCount},
-        Row
+        end, {OuterMap, OuterCount}, Row
     ),
     {array:set(X, NewInnerMap, OuterMap), NewInnerCount}.
