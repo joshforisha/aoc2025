@@ -12,10 +12,10 @@ main(_) ->
 
 divide(N, String) ->
     Length = string:length(String),
-    if
-        Length < N ->
-            String;
+    case Length < N of
         true ->
+            String;
+        false ->
             {Segment, Rest} = lists:split(N, String),
             [Segment | divide(N, Rest)]
     end.
@@ -45,10 +45,9 @@ is_mirrored(String) ->
 is_repeated(N, String) when N > (length(String) / 2) -> false;
 is_repeated(N, String) ->
     [First | Substrings] = divide(N, String),
-    Repeats = lists:all(fun(X) -> X == First end, Substrings),
-    if
-        Repeats -> true;
-        true -> is_repeated(N + 1, String)
+    case lists:all(fun(X) -> X == First end, Substrings) of
+        true -> true;
+        false -> is_repeated(N + 1, String)
     end.
 
 to_range(RangeString) ->
