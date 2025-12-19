@@ -1,5 +1,4 @@
 -module(day05).
--export([reduce_ranges/1]).
 
 main(_) ->
     {ok, Data} = file:read_file("data/day05.txt"),
