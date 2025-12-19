@@ -45,10 +45,7 @@ is_mirrored(String) ->
 is_repeated(N, String) when N > (length(String) / 2) -> false;
 is_repeated(N, String) ->
     [First | Substrings] = divide(N, String),
-    case lists:all(fun(X) -> X == First end, Substrings) of
-        true -> true;
-        false -> is_repeated(N + 1, String)
-    end.
+    lists:all(fun(X) -> X == First end, Substrings) or is_repeated(N + 1, String).
 
 to_range(RangeString) ->
     [MinString, MaxString] = string:split(RangeString, "-"),
